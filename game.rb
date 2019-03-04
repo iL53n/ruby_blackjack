@@ -29,11 +29,16 @@ class Game
       @player.add_card(new_card)
       @dealer.add_card(new_card)
     end
+    auto_bet
   end
 
   def new_card
     @deck.pop
   end
 
-
+  def auto_bet
+    @player.cash -= 10
+    @dealer.cash -= 10
+    @bank = 20
+  end
 end
