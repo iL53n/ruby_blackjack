@@ -1,3 +1,7 @@
+require_relative './player'
+require_relative './user'
+require_relative './dealer'
+
 class Game
 
   def initialize
@@ -16,4 +20,20 @@ class Game
              {"K♠" => 10},       {"K♢" => 10},      {"K♣" => 10},      {"K♡" => 10},
              {"A♠" => [1, 11]},  {"A♢" => [1, 11]}, {"A♣" => [1, 11]}, {"A♡" => [1, 11]}]
   end
+
+  def start_game
+    @player = User.new
+    @dealer = Dealer.new
+    @deck.shuffle!
+    2.times do
+      @player.add_card(new_card)
+      @dealer.add_card(new_card)
+    end
+  end
+
+  def new_card
+    @deck.pop
+  end
+
+
 end

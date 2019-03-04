@@ -1,8 +1,15 @@
 class Player
 
   def initialize
-    #@name
     @cash = 100
     @cards = []
+  end
+
+  def add_card(card)
+    @cards << card
+  end
+
+  def show_cards
+
   end
 end
