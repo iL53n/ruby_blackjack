@@ -6,6 +6,7 @@ class Dealer < Player
   end
 
   def hide_cards
-    @cards.size.times {print ' * '}
+    @cards.size.times {print " * "}
+    puts
   end
 end

@@ -36,6 +36,8 @@ class Game
       @dealer.add_card(new_card)
     end
     auto_bet
+    board
+    player_menu
   end
 
   def new_card
@@ -46,5 +48,33 @@ class Game
     @player.cash -= 10
     @dealer.cash -= 10
     @bank = 20
+  end
+
+  def board
+    puts "============================================"
+    puts @dealer.name
+    @dealer.hide_cards
+    puts "Cash: #{@dealer.cash}"
+    puts "--------------------------------------------"
+    puts "Bank: #{@bank}"
+    puts "--------------------------------------------"
+    puts @player.name
+    @player.show_cards
+    puts "Cash: #{@player.cash}"
+    puts "============================================"
+  end
+
+  def player_menu
+    puts "| 1 - ADD CARD | 2 - PASS | 3 - OPEN CARDS |"
+    puts "============================================"
+    print "Your choice: "
+    choice = gets.to_i
+    case choice
+      when 1
+        @player.add_card(new_card)
+        #переход хода к дилеру
+      when 2
+        #переход хода к дилеру
+    end
   end
 end
