@@ -1,12 +1,12 @@
 class Dealer < Player
 
   def initialize
-    @name = 'Dealer'
+    @name = "Dealer"
     super
   end
 
   def hide_cards
-    @cards.size.times {print " * "}
+    @cards.size.times { print " * " }
     puts
   end
 end

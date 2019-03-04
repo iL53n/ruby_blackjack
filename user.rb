@@ -6,7 +6,7 @@ class User < Player
   end
 
   def request_name
-    print 'Your name: '
+    print "Your name: "
     gets.chomp
   end
 

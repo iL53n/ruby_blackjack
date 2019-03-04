@@ -72,7 +72,7 @@ class Game
 
   def player_menu
     puts "|1-add card|2-pass|3-open cards|"
-    puts "============================================"
+    puts "================================"
     choice_player
   end
 
@@ -94,7 +94,7 @@ class Game
   end
 
   def choice_dealer
-    @dealer.ammount_cards < 17 ? @dealer.add_card(new_card) : stop
+    @dealer.sum_cards < 17 ? @dealer.add_card(new_card) : stop
   end
 
   def showdown
