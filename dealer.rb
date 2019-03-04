@@ -4,4 +4,8 @@ class Dealer < Player
     @name = 'Dealer'
     super
   end
+
+  def hide_cards
+    @cards.size.times {print ' * '}
+  end
 end
