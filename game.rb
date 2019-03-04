@@ -4,6 +4,8 @@ require_relative './dealer'
 
 class Game
 
+  attr_reader :player, :dealer
+
   def initialize
     @bank = 0
     @deck = [{"2♠" => 2},        {"2♢" => 2},       {"2♣" => 2},       {"2♡" => 2},
