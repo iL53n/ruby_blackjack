@@ -14,26 +14,25 @@ class Player
   end
 
   def show_cards
-    amount_cards = 0
     @cards.each do |card|
       card.each do |key, value|
         print "#{key} "
-        amount_cards += value.to_i
       end
     end
-    puts "---> #{amount_cards} "
+    puts
   end
 
   def sum_cards
     amount = 0
     @cards.each do |card|
       card.each do |key, value|
-        key
+        #ACE?
         amount += value.to_i
       end
     end
     amount
   end
+
 
 
 end

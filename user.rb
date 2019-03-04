@@ -1,6 +1,6 @@
 class User < Player
 
-  NO_NAME = "Anonim"
+  NO_NAME = "Anonim".freeze
 
   def initialize
     @name = request_name

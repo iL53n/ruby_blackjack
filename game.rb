@@ -4,12 +4,12 @@ require_relative './dealer'
 
 class Game
 
-  PLAYER_WIN = "YOU WIN !!!"
-  DEALER_WIN = "YOU LOSE !!!"
-  BUST = "BUST"
-  DRAW = "DRAW"
-  SHOWDOWN = "-= SHOWDOWN =-"
-  BLACKJACK = 21
+  PLAYER_WIN = "YOU WIN !!!".freeze
+  DEALER_WIN = "YOU LOSE !!!".freeze
+  BUST = "BUST".freeze
+  DRAW = "DRAW".freeze
+  SHOWDOWN = "-= SHOWDOWN =-".freeze
+  BLACKJACK = 21.freeze
   DECK = [{"2♠" => 2},        {"2♢" => 2},       {"2♣" => 2},       {"2♡" => 2},
           {"3♠" => 3},        {"3♢" => 3},       {"3♣" => 3},       {"3♡" => 3},
           {"4♠" => 4},        {"4♢" => 4},       {"4♣" => 4},       {"4♡" => 4},
@@ -28,7 +28,7 @@ class Game
 
   def initialize
     @bank = 0
-    new_deck
+    start_game
   end
 
   def start_game
@@ -38,8 +38,7 @@ class Game
   end
 
   def new_deal
-    @player.cards = []
-    @dealer.cards = []
+    clear
     new_deck
     2.times do
       @player.add_card(new_card)
@@ -56,6 +55,8 @@ class Game
 
   def new_deck
     @deck = DECK
+    puts "Deck shuffle..."
+    #sleep(2)
     @deck.shuffle!
   end
 
@@ -69,13 +70,14 @@ class Game
     puts "================================"
     puts @dealer.name
     @dealer.hide_cards
-    puts "Cash: #{@dealer.cash}"
+    puts "Cash: #{@dealer.cash}$"
     puts "--------------------------------"
-    puts "Bank: #{@bank}"
+    puts "Bank: #{@bank}$"
     puts "--------------------------------"
     puts @player.name
     @player.show_cards
-    puts "Cash: #{@player.cash}"
+    puts "( #{@player.sum_cards} )"
+    puts "Cash: #{@player.cash}$"
     puts "================================"
   end
 
@@ -96,15 +98,13 @@ class Game
         choice_dealer
       when 2
         choice_dealer
-        board
-        showdown
     end
   end
 
   def choice_dealer
-    puts "Move dealer ..."
+    puts "Choice dealer ..."
     #sleep(2)
-    @dealer.sum_cards < 17 ? @dealer.add_card(new_card) : nil
+    @dealer.add_card(new_card) if @dealer.sum_cards < 17
     board
     showdown
   end
@@ -113,8 +113,10 @@ class Game
     puts SHOWDOWN
     puts @dealer.name
     @dealer.show_cards
+    puts "( #{@dealer.sum_cards} )"
     puts @player.name
     @player.show_cards
+    puts "( #{@player.sum_cards} )"
     definition_winner
   end
 
@@ -136,25 +138,27 @@ class Game
         dealer_winner
       end
     end
+
     end_game
   end
 
+  # def not_money?
+  #   @player.cash.nil? || @dealer.cash.nil?
+  # end
+
   def dealer_winner
     @dealer.cash += @bank
-    @bank = 0
     puts DEALER_WIN
   end
 
   def player_winner
     @player.cash += @bank
-    @bank = 0
     puts PLAYER_WIN
   end
 
   def draw_no_winner
     @player.cash += 10
     @dealer.cash += 10
-    @bank = 0
     puts DRAW
   end
 
@@ -168,4 +172,9 @@ class Game
     end
   end
 
+  def clear
+    @bank = 0
+    @player.cards = []
+    @dealer.cards = []
+  end
 end
