@@ -30,7 +30,7 @@ class Game
   end
 
   def new_deal
-    @deck.shuffle!
+    shuffle
     2.times do
       @player.add_card(new_card)
       @dealer.add_card(new_card)
@@ -44,6 +44,12 @@ class Game
     @deck.pop
   end
 
+  def shuffle
+    puts 'Shuffle deck.....'
+    @deck.shuffle!
+    #sleep(3)
+  end
+
   def auto_bet
     @player.cash -= 10
     @dealer.cash -= 10
@@ -51,30 +57,49 @@ class Game
   end
 
   def board
-    puts "============================================"
+    puts "================================"
     puts @dealer.name
     @dealer.hide_cards
     puts "Cash: #{@dealer.cash}"
-    puts "--------------------------------------------"
+    puts "--------------------------------"
     puts "Bank: #{@bank}"
-    puts "--------------------------------------------"
+    puts "--------------------------------"
     puts @player.name
     @player.show_cards
     puts "Cash: #{@player.cash}"
-    puts "============================================"
+    puts "================================"
   end
 
   def player_menu
-    puts "| 1 - ADD CARD | 2 - PASS | 3 - OPEN CARDS |"
+    puts "|1-add card|2-pass|3-open cards|"
     puts "============================================"
+    choice_player
+  end
+
+  def choice_player
     print "Your choice: "
     choice = gets.to_i
+
     case choice
       when 1
         @player.add_card(new_card)
-        #переход хода к дилеру
+        choice_dealer
+        board
+        showdown
       when 2
-        #переход хода к дилеру
+        choice_dealer
+        board
+        showdown
     end
   end
+
+  def choice_dealer
+    @dealer.ammount_cards < 17 ? @dealer.add_card(new_card) : stop
+  end
+
+  def showdown
+    @dealer.show_cards
+    @player.show_cards
+  end
+
 end

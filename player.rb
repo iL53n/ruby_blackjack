@@ -24,5 +24,16 @@ class Player
     puts "---> #{amount_cards} "
   end
 
+  def ammount_cards
+    amount = 0
+    @cards.each do |card|
+      card.each do |key, value|
+        key
+        amount += value.to_i
+      end
+    end
+    amount
+  end
+
 
 end
