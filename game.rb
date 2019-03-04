@@ -24,6 +24,10 @@ class Game
   def start_game
     @player = User.new
     @dealer = Dealer.new
+    new_deal
+  end
+
+  def new_deal
     @deck.shuffle!
     2.times do
       @player.add_card(new_card)
