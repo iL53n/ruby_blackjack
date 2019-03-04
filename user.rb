@@ -1,5 +1,7 @@
 class User < Player
 
+  NO_NAME = "Anonim"
+
   def initialize
     @name = request_name
     super
@@ -7,7 +9,9 @@ class User < Player
 
   def request_name
     print "Your name: "
-    gets.chomp.capitalize
+    name = gets.chomp
+    name = NO_NAME if name.to_s.empty?
+    name
   end
 
 end

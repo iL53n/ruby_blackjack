@@ -128,12 +128,12 @@ class Game
     elsif player_result.positive? && dealer_result.negative?
       player_winner
     else
-      if difference.nil?
+      if difference.zero?
         draw_no_winner
       elsif difference.positive?
         player_winner
       else difference.negative?
-      dealer_winner
+        dealer_winner
       end
     end
     end_game
