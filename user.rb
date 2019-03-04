@@ -7,7 +7,7 @@ class User < Player
 
   def request_name
     print "Your name: "
-    gets.chomp
+    gets.chomp.capitalize
   end
 
 end

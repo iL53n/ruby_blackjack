@@ -1,7 +1,7 @@
 class Player
 
   attr_reader :name
-  attr_accessor :cash
+  attr_accessor :cash, :cards
 
   def initialize
     @name
@@ -17,7 +17,7 @@ class Player
     amount_cards = 0
     @cards.each do |card|
       card.each do |key, value|
-        print "#{key}  "
+        print "#{key} "
         amount_cards += value.to_i
       end
     end
