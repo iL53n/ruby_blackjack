@@ -69,7 +69,7 @@ class Game
   def board
     puts "================================"
     puts @dealer.name
-    @dealer.hide_cards
+    puts @dealer.hidden_cards
     puts "Cash: #{@dealer.cash}$"
     puts "--------------------------------"
     puts "Bank: #{@bank}$"

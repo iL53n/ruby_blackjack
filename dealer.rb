@@ -7,8 +7,7 @@ class Dealer < Player
     super
   end
 
-  def hide_cards
-    @cards.size.times { print " 🂠 " }
-    puts
+  def hidden_cards
+    @cards.map {'*'}.join(' ')
   end
 end
