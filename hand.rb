@@ -1,4 +1,6 @@
 class Hand
+  attr_accessor :cards
+
   BLACK_JACK = 21.freeze
   ACE_CORRECT = 10.freeze
 

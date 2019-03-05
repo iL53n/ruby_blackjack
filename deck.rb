@@ -1,21 +1,19 @@
+require_relative './card'
+
 class Deck
-  attr_accessor :deck
+  attr_accessor :cards
 
   def initialize
-    @deck = create_deck
-    shuffle
+    @cards = create_deck
   end
 
   def create_deck
-    deck = []
+    cards = []
     Card::SUITS.each do |suit|
       Card::RANKS.each do |rank, value|
-        deck << Card.new(suit, rank, value)
+        cards << Card.new(suit, rank, value)
       end
     end
-  end
-
-  def shuffle
-    @deck.shuffle!
+    cards.shuffle!
   end
 end

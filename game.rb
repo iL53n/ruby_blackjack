@@ -3,6 +3,7 @@ require_relative './dealer'
 require_relative './user'
 require_relative './card'
 require_relative './deck'
+require_relative './bank'
 
 class Game
 
@@ -21,12 +22,9 @@ class Game
   end
 
   def new_deal
-    clear
+    drop_cards
     new_deck
-    2.times do
-      @player.add_card(new_card)
-      @dealer.add_card(new_card)
-    end
+    start_cards
     @bank.auto_bet(@player, @dealer)
   end
 
@@ -34,42 +32,39 @@ class Game
     @deck = Deck.new
   end
 
-  def new_card
-    @deck.pop
-  end
-
-
-  def definition_winner
-    dealer_result = BLACKJACK - @dealer.sum_cards
-    player_result = BLACKJACK - @player.sum_cards
-    difference = dealer_result - player_result
-
-    if player_result.negative? && dealer_result.positive?
-      dealer_winner
-    elsif player_result.positive? && dealer_result.negative?
-      player_winner
-    else
-      if difference.zero?
-        draw_no_winner
-      elsif difference.positive?
-        player_winner
-      else difference.negative?
-        dealer_winner
-      end
+  def start_cards
+    2.times do
+      @player.add_card(new_card)
+      @dealer.add_card(new_card)
     end
-
-    end_game
   end
 
-  # def not_money?
-  #   @player.cash.nil? || @dealer.cash.nil?
-  # end
+  def new_card
+    @deck.cards.pop
+  end
 
+  def drop_cards
+    @player.hand = []
+    @dealer.hand = []
+  end
 
+  def definition_winner #return winner or draw
+    return if @player.sum_cards > Hand::BLACK_JACK && @dealer.sum_cards > Hand::BLACK_JACK
+    return if @player.sum_cards == @dealer.sum_cards
+    return @player if @dealer.sum_cards > Hand::BLACK_JACK
+    return @dealer if @player.sum_cards > Hand::BLACK_JACK
+    [@player, @dealer].max_by(&:sum_cards)
+  end
 
-  def clear
-    @bank = 0
-    @player.cards = []
-    @dealer.cards = []
+  def deal_result
+    case definition_winner
+    when @player
+      @bank.winner(@player)
+    when @dealer
+      @bank.winner(@dealer)
+    else
+      @bank.draw(@player, @dealer)
+    end
+    drop_cards
   end
 end
