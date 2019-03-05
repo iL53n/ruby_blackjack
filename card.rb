@@ -23,4 +23,8 @@ class Card
     @rank = rank
     @value = value
   end
+
+  def ace?
+    @value == 11
+  end
 end

@@ -1,13 +1,12 @@
 class Dealer < Player
-
-  DEALER = "Dealer".freeze
+  DEALER_NAME = "Dealer".freeze
 
   def initialize
-    @name = DEALER
+    @name = DEALER_NAME
     super
   end
 
   def hidden_cards
-    @cards.map {'*'}.join(' ')
+    @hand.map {'🂠'}.join(' ')
   end
 end
