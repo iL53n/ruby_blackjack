@@ -23,6 +23,8 @@ class Game
     new_deal
   end
 
+  private
+
   def new_deal
     new_deck
     start_cards

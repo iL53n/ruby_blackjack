@@ -7,6 +7,8 @@ class Deck
     @cards = create_deck
   end
 
+  private
+
   def create_deck
     cards = []
     Card::SUITS.each do |suit|

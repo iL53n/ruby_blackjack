@@ -108,6 +108,8 @@ class Interface
     gets.chomp.upcase
   end
 
+  private
+
   def name_cash(player)
     player.name + ": #{player.cash}" + DOLLAR_SYM
   end
