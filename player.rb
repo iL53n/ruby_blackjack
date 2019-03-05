@@ -14,7 +14,7 @@ class Player
     @hand << card
   end
 
-  def show_cards
+  def show_cards #????
     @hand.each do |card|
       card.suit
       card.rank

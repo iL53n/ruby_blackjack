@@ -1,15 +1,10 @@
 require_relative './player'
-require_relative './user'
 require_relative './dealer'
+require_relative './user'
+require_relative './card'
+require_relative './deck'
 
 class Game
-
-  PLAYER_WIN = "YOU WIN !!!".freeze
-  DEALER_WIN = "YOU LOSE !!!".freeze
-  BUST = "BUST".freeze
-  DRAW = "DRAW".freeze
-  SHOWDOWN = "-= SHOWDOWN =-".freeze
-
 
   attr_reader :player, :dealer, :bank
 
@@ -21,6 +16,7 @@ class Game
   def start_game
     @player = User.new
     @dealer = Dealer.new
+    @bank = Bank.new
     new_deal
   end
 
@@ -31,81 +27,17 @@ class Game
       @player.add_card(new_card)
       @dealer.add_card(new_card)
     end
-    auto_bet
-    board
-    player_menu
+    @bank.auto_bet(@player, @dealer)
+  end
+
+  def new_deck
+    @deck = Deck.new
   end
 
   def new_card
     @deck.pop
   end
 
-  def new_deck
-    @deck = DECK
-    puts "Deck shuffle..."
-    #sleep(2)
-    @deck.shuffle!
-  end
-
-  def auto_bet
-    @player.cash -= 10
-    @dealer.cash -= 10
-    @bank = 20
-  end
-
-  def board
-    puts "================================"
-    puts @dealer.name
-    puts @dealer.hidden_cards
-    puts "Cash: #{@dealer.cash}$"
-    puts "--------------------------------"
-    puts "Bank: #{@bank}$"
-    puts "--------------------------------"
-    puts @player.name
-    @player.show_cards
-    puts "( #{@player.sum_cards} )"
-    puts "Cash: #{@player.cash}$"
-    puts "================================"
-  end
-
-  def player_menu
-    puts "  | 1 - ADD CARD || 2 - PASS |  " # не понимаю зачем кнопка "открыть карты" при указанных условиях
-    puts "================================"
-    choice_player
-  end
-
-  def choice_player
-    print "Your choice: "
-    choice = gets.to_i
-
-    case choice
-      when 1
-        @player.add_card(new_card)
-        board
-        choice_dealer
-      when 2
-        choice_dealer
-    end
-  end
-
-  def choice_dealer
-    puts "Choice dealer ..."
-    #sleep(2)
-    @dealer.add_card(new_card) if @dealer.sum_cards < 17
-    board
-    showdown
-  end
-
-  def showdown
-    puts SHOWDOWN
-    puts @dealer.name
-    @dealer.show_cards
-    puts "( #{@dealer.sum_cards} )"
-    puts @player.name
-    @player.show_cards
-    puts "( #{@player.sum_cards} )"
-    definition_winner
-  end
 
   def definition_winner
     dealer_result = BLACKJACK - @dealer.sum_cards
@@ -133,31 +65,7 @@ class Game
   #   @player.cash.nil? || @dealer.cash.nil?
   # end
 
-  def dealer_winner
-    @dealer.cash += @bank
-    puts DEALER_WIN
-  end
 
-  def player_winner
-    @player.cash += @bank
-    puts PLAYER_WIN
-  end
-
-  def draw_no_winner
-    @player.cash += 10
-    @dealer.cash += 10
-    puts DRAW
-  end
-
-  def end_game
-    print "Play again(Y/N)? "
-    input = gets.chomp.upcase
-    if input == "Y"
-      new_deal
-    else input == "N"
-      exit
-    end
-  end
 
   def clear
     @bank = 0
