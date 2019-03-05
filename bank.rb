@@ -24,7 +24,7 @@ class Bank
     @bank = 0
   end
 
-  def not_money?(player)
-    player.cash < BET
+  def have_money?(player)
+    player.cash > BET
   end
 end

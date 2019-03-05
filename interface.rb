@@ -15,6 +15,7 @@ class Interface
   CHOICE_DEALER = "Choice dealer ...".freeze
   ADD_DEALER = "Dealer add card.".freeze
   PASS_DEALER = "Dealer pass.".freeze
+  NO_MONEY = "Игра окончена! У одного из игроков закончились деньги."
 
   attr_reader :player_name
 
@@ -81,6 +82,11 @@ class Interface
   def draw_info
     pause
     puts DRAW
+  end
+
+  def no_money
+    pause
+    puts NO_MONEY
   end
 
   def showdown(player, dealer)

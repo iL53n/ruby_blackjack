@@ -79,8 +79,12 @@ class Game
   end
 
   def rep_game
-    input = @interface.end_game
-    input == "Y" ? new_deal : exit
+    if @bank.have_money?(@dealer) && @bank.have_money?(@player)
+      input = @interface.end_game
+      input == "Y" ? new_deal : exit
+    else
+      @interface.no_money
+    end
   end
 
   def definition_winner #return winner or draw
