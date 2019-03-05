@@ -4,6 +4,7 @@ require_relative './user'
 require_relative './card'
 require_relative './deck'
 require_relative './bank'
+require_relative './interface'
 
 class Game
 
@@ -15,17 +16,23 @@ class Game
   end
 
   def start_game
-    @player = User.new
+    @interface = Interface.new
+    @player = User.new(@interface.player_name)
     @dealer = Dealer.new
     @bank = Bank.new
     new_deal
   end
 
   def new_deal
-    drop_cards
     new_deck
     start_cards
     @bank.auto_bet(@player, @dealer)
+    @interface.board(@player, @dealer, @bank)
+    @interface.player_menu
+    move_player
+    @interface.showdown(@player, @dealer)
+    deal_result
+    rep_game
   end
 
   def new_deck
@@ -44,8 +51,36 @@ class Game
   end
 
   def drop_cards
-    @player.hand = []
-    @dealer.hand = []
+    @player.hand.cards = []
+    @dealer.hand.cards = []
+  end
+
+  def move_player
+    input = @interface.choice_player
+
+    case input
+    when 1
+      @player.add_card(new_card)
+      @interface.board(@player, @dealer, @bank)
+      move_dealer
+    when 2
+      move_dealer
+    end
+  end
+
+  def move_dealer
+    @interface.choice_dealer
+    if @dealer.sum_cards < 17
+      @dealer.add_card(new_card)
+      @interface.add_dealer
+    else
+      @interface.pass_dealer
+    end
+  end
+
+  def rep_game
+    input = @interface.end_game
+    input == "Y" ? new_deal : exit
   end
 
   def definition_winner #return winner or draw
@@ -60,10 +95,13 @@ class Game
     case definition_winner
     when @player
       @bank.winner(@player)
+      @interface.player_win
     when @dealer
       @bank.winner(@dealer)
+      @interface.dealer_win
     else
       @bank.draw(@player, @dealer)
+      @interface.draw_info
     end
     drop_cards
   end

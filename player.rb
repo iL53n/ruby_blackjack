@@ -6,20 +6,14 @@ class Player
   attr_reader :name
   attr_accessor :cash, :cards, :hand
 
-  def initialize
+  def initialize(name)
+    @name = name
     @cash = START_CASH
     @hand = Hand.new
   end
 
   def add_card(card)
     @hand.cards << card
-  end
-
-  def show_cards #????
-    @hand.cards.each do |card|
-      card.suit
-      card.rank
-    end
   end
 
   def sum_cards

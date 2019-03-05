@@ -5,11 +5,11 @@ require_relative './game'
 
 game = Game.new
 game.start_game
-game.new_deal
-game.new_deck
-game.start_cards
-game.new_card
-game.drop_cards
-game.definition_winner
-game.deal_result
+# game.new_deal
+# game.new_deck
+# game.start_cards
+# game.new_card
+# game.drop_cards
+# game.definition_winner
+# game.deal_result
 
