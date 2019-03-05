@@ -1,8 +1,8 @@
 class Hand
   attr_accessor :cards
 
-  BLACK_JACK = 21.freeze
-  ACE_CORRECT = 10.freeze
+  BLACK_JACK = 21
+  ACE_CORRECT = 10
 
   def initialize
     @cards = []
@@ -13,9 +13,7 @@ class Hand
     sum = @cards.sum(&:value)
 
     @cards.each do |card|
-      if sum > BLACK_JACK && card.ace?
-        sum -= ACE_CORRECT
-      end
+      sum -= ACE_CORRECT if sum > BLACK_JACK && card.ace?
     end
     sum
   end

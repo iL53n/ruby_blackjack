@@ -1,4 +1,3 @@
-
 class Interface
   NO_NAME = "NO_NAME".freeze
   INPUT_NAME = "Your name: ".freeze
@@ -16,6 +15,8 @@ class Interface
   ADD_DEALER = "Dealer add card.".freeze
   PASS_DEALER = "Dealer pass.".freeze
   NO_MONEY = "Игра окончена! У одного из игроков закончились деньги."
+  PLAY_AGAIN = "Play again(Y/N)? "
+  YES = "Y"
 
   attr_reader :player_name
 
@@ -89,6 +90,10 @@ class Interface
     puts NO_MONEY
   end
 
+  def yes
+    YES
+  end
+
   def showdown(player, dealer)
     puts DOUBLE_LINE
     puts SHOWDOWN
@@ -104,7 +109,7 @@ class Interface
   end
 
   def end_game
-    print "Play again(Y/N)? "
+    print PLAY_AGAIN
     gets.chomp.upcase
   end
 
@@ -123,7 +128,7 @@ class Interface
   end
 
   def show_bank(bank)
-    BANK + "#{bank.bank}" + DOLLAR_SYM
+    BANK + bank.bank.to_s + DOLLAR_SYM
   end
 
   def pause

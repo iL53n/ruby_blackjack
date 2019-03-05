@@ -83,17 +83,18 @@ class Game
   def rep_game
     if @bank.have_money?(@dealer) && @bank.have_money?(@player)
       input = @interface.end_game
-      input == "Y" ? new_deal : exit
+      input == @interface.yes ? new_deal : exit
     else
       @interface.no_money
     end
   end
 
-  def definition_winner #return winner or draw
+  def definition_winner # return winner or draw
     return if @player.sum_cards > Hand::BLACK_JACK && @dealer.sum_cards > Hand::BLACK_JACK
     return if @player.sum_cards == @dealer.sum_cards
     return @player if @dealer.sum_cards > Hand::BLACK_JACK
     return @dealer if @player.sum_cards > Hand::BLACK_JACK
+
     [@player, @dealer].max_by(&:sum_cards)
   end
 
