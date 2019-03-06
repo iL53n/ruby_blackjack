@@ -14,17 +14,11 @@ class Interface
   CHOICE_DEALER = "Choice dealer ...".freeze
   ADD_DEALER = "Dealer add card.".freeze
   PASS_DEALER = "Dealer pass.".freeze
-  NO_MONEY = "Игра окончена! У одного из игроков закончились деньги."
-  PLAY_AGAIN = "Play again(Y/N)? "
-  YES = "Y"
+  NO_MONEY = "Игра окончена! У одного из игроков закончились деньги.".freeze
+  PLAY_AGAIN = "Play again(Y/N)? ".freeze
+  YES = "Y".freeze
 
-  attr_reader :player_name
-
-  def initialize
-    @player_name = request_name
-  end
-
-  def request_name
+  def ask_name
     print INPUT_NAME
     name = gets.chomp
     name = NO_NAME if name.to_s.empty?
@@ -45,7 +39,7 @@ class Interface
   end
 
   def player_menu
-    puts CHOICE_BUTTON # не понимаю зачем кнопка "открыть карты" при указанных условиях
+    puts CHOICE_BUTTON
     puts DOUBLE_LINE
   end
 
@@ -120,11 +114,11 @@ class Interface
   end
 
   def hidden_cards(player)
-    player.hand.cards.map {'🂠'}.join(' ')
+    player.cards.map {'🂠'}.join(' ')
   end
 
   def show_cards(player)
-    player.hand.cards.map { |card| card.rank + card.suit}.join(' ')
+    player.cards.map { |card| card.rank.to_s + card.suit }.join(' ')
   end
 
   def show_bank(bank)

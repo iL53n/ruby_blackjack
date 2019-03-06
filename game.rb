@@ -17,13 +17,18 @@ class Game
 
   def start_game
     @interface = Interface.new
-    @player = User.new(@interface.player_name)
+    create_player
     @dealer = Dealer.new
     @bank = Bank.new
     new_deal
   end
 
   private
+
+  def create_player
+    name = @interface.ask_name
+    @player = User.new(name)
+  end
 
   def new_deal
     new_deck
@@ -49,12 +54,12 @@ class Game
   end
 
   def new_card
-    @deck.cards.pop
+    @deck.new_card
   end
 
   def drop_cards
-    @player.hand.cards = []
-    @dealer.hand.cards = []
+    @player.fold_cards
+    @dealer.fold_cards
   end
 
   def move_player

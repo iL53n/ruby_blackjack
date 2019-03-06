@@ -7,13 +7,17 @@ class Deck
     @cards = create_deck
   end
 
+  def new_card
+    @cards.pop
+  end
+
   private
 
   def create_deck
     cards = []
     Card::SUITS.each do |suit|
-      Card::RANKS.each do |rank, value|
-        cards << Card.new(suit, rank, value)
+      Card::VALUES.each do |rank|
+        cards << Card.new(suit, rank.first)
       end
     end
     cards.shuffle!
