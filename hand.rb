@@ -9,9 +9,11 @@ class Hand
   end
 
   def sum_cards
-    sum ||= 0
     sum = @cards.sum(&:value)
+    ace_correction(sum)
+  end
 
+  def ace_correction(sum)
     @cards.each do |card|
       sum -= ACE_CORRECT if sum > BLACK_JACK && card.ace?
     end
