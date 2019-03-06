@@ -2,7 +2,7 @@ class Card
   attr_reader :suit, :rank, :value
 
   SUITS = %w[♠ ♢ ♣ ♡]
-  RANKS = {
+  VALUES = {
       "2" => 2,
       "3" => 3,
       "4" => 4,
@@ -18,13 +18,13 @@ class Card
       "A" => 11
   }
 
-  def initialize(suit, rank, value)
+  def initialize(suit, rank)
     @suit = suit
     @rank = rank
-    @value = value
+    @value = VALUES[rank]
   end
 
   def ace?
-    @value == 11
+    @rank == 'A'
   end
 end
