@@ -19,4 +19,12 @@ class Player
   def sum_cards
     @hand.sum_cards
   end
+
+  def plus_money(sum)
+    @cash += sum
+  end
+
+  def minus_money(sum)
+    @cash -= sum
+  end
 end

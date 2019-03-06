@@ -8,19 +8,19 @@ class Bank
   end
 
   def auto_bet(player, dealer)
-    player.cash -= BET
-    dealer.cash -= BET
+    player.minus_money(BET)
+    dealer.minus_money(BET)
     @bank = BET * 2
   end
 
   def winner(player)
-    player.cash += @bank
+    player.plus_money(@bank)
     @bank = 0
   end
 
   def draw(player, dealer)
-    player.cash += @bank / 2
-    dealer.cash += @bank / 2
+    player.plus_money(@bank / 2)
+    dealer.plus_money(@bank / 2)
     @bank = 0
   end
 
