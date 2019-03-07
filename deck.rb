@@ -16,8 +16,8 @@ class Deck
   def create_deck
     cards = []
     Card::SUITS.each do |suit|
-      Card::VALUES.each do |rank|
-        cards << Card.new(suit, rank.first)
+      Card::VALUES.each do |rank, _|
+        cards << Card.new(suit, rank)
       end
     end
     cards.shuffle!

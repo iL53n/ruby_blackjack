@@ -7,16 +7,20 @@ class Interface
   SHOWDOWN = "-= SHOWDOWN =-".freeze
   DOLLAR_SYM = "$".freeze
   BANK = "Bank: ".freeze
-  ODD_LINE =    "--------------------------------".freeze
-  DOUBLE_LINE = "================================".freeze
-  CHOICE_BUTTON =   "  | 1 - ADD CARD || 2 - PASS |  ".freeze
+  ODD_LINE =        "----------------------------------".freeze
+  DOUBLE_LINE =     "==================================".freeze
+  CHOICE_BUTTON =   "|1 - ADD CARD||2 - PASS||3 - OPEN|".freeze
   CHOICE_TITLE = "Your choice: ".freeze
   CHOICE_DEALER = "Choice dealer ...".freeze
   ADD_DEALER = "Dealer add card.".freeze
   PASS_DEALER = "Dealer pass.".freeze
-  NO_MONEY = "Игра окончена! У одного из игроков закончились деньги.".freeze
+  NO_MONEY = "Game over! One of the players ran out of money.".freeze
   PLAY_AGAIN = "Play again(Y/N)? ".freeze
   YES = "Y".freeze
+  MAX_CARDS = "You already have the maximum number of cards(3).".freeze
+  MAX_CARDS_DEALER = "Dealer pass.Dealer already has the maximum number of cards(3).".freeze
+  OPEN_CARDS = "Opening cards...".freeze
+  AUTO_OPEN_CARDS = "Auto opening cards! You and dealer have the maximum number of cards.".freeze
 
   def ask_name
     print INPUT_NAME
@@ -26,11 +30,19 @@ class Interface
   end
 
   def board(player, dealer, bank)
-    puts DOUBLE_LINE
-    puts name_cash(dealer)
-    puts hidden_cards(dealer)
-    puts ODD_LINE
+    close_cards(dealer)
     puts show_bank(bank)
+    open_cards(player)
+  end
+
+  def close_cards(player)
+    puts DOUBLE_LINE
+    puts name_cash(player)
+    puts hidden_cards(player)
+    puts ODD_LINE
+  end
+
+  def open_cards(player)
     puts ODD_LINE
     puts name_cash(player)
     puts show_cards(player)
@@ -88,18 +100,32 @@ class Interface
     YES
   end
 
+  def max_cards
+    puts MAX_CARDS
+    pause
+  end
+
+  def max_cards_dealer
+    puts MAX_CARDS_DEALER
+    pause
+  end
+
+  def auto_open_cards
+    puts AUTO_OPEN_CARDS
+    pause
+  end
+
+
+  def opening_cards
+    puts OPEN_CARDS
+    pause
+  end
+
   def showdown(player, dealer)
     puts DOUBLE_LINE
     puts SHOWDOWN
-    puts DOUBLE_LINE
-    puts name_cash(dealer)
-    puts show_cards(dealer)
-    puts dealer.sum_cards
-    puts ODD_LINE
-    puts name_cash(player)
-    puts show_cards(player)
-    puts player.sum_cards
-    puts DOUBLE_LINE
+    open_cards(dealer)
+    open_cards(player)
   end
 
   def end_game

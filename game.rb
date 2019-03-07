@@ -34,12 +34,51 @@ class Game
     new_deck
     start_cards
     @bank.auto_bet(@player, @dealer)
+    interface_board
+    game_round
+    end_game
+  end
+
+  def game_round
+    return @interface.auto_open_cards if @dealer.hand.full_hand? && @player.hand.full_hand?
+
+    input = @interface.choice_player
+
+    case input
+    when 1
+      move_player
+      move_dealer
+    when 2
+      move_dealer
+    when 3
+      return @interface.opening_cards
+    end
+  end
+
+  def move_player
+    return @interface.max_cards if @player.hand.full_hand?
+
+    @player.add_card(new_card)
+    @interface.open_cards(@player)
+  end
+
+  def move_dealer
+    return @interface.max_cards_dealer if @dealer.hand.full_hand?
+
+    @interface.choice_dealer
+    if @dealer.sum_cards < 17
+      @dealer.add_card(new_card)
+      @interface.add_dealer
+    else
+      @interface.pass_dealer
+    end
+    interface_board
+    game_round
+  end
+
+  def interface_board
     @interface.board(@player, @dealer, @bank)
     @interface.player_menu
-    move_player
-    @interface.showdown(@player, @dealer)
-    deal_result
-    rep_game
   end
 
   def new_deck
@@ -62,29 +101,6 @@ class Game
     @dealer.fold_cards
   end
 
-  def move_player
-    input = @interface.choice_player
-
-    case input
-    when 1
-      @player.add_card(new_card)
-      @interface.board(@player, @dealer, @bank)
-      move_dealer
-    when 2
-      move_dealer
-    end
-  end
-
-  def move_dealer
-    @interface.choice_dealer
-    if @dealer.sum_cards < 17
-      @dealer.add_card(new_card)
-      @interface.add_dealer
-    else
-      @interface.pass_dealer
-    end
-  end
-
   def rep_game
     if @bank.have_money?(@dealer) && @bank.have_money?(@player)
       input = @interface.end_game
@@ -94,7 +110,7 @@ class Game
     end
   end
 
-  def definition_winner # return winner or draw
+  def definition_winner
     return if @player.sum_cards > Hand::BLACK_JACK && @dealer.sum_cards > Hand::BLACK_JACK
     return if @player.sum_cards == @dealer.sum_cards
     return @player if @dealer.sum_cards > Hand::BLACK_JACK
@@ -116,5 +132,11 @@ class Game
       @interface.draw_info
     end
     drop_cards
+  end
+
+  def end_game
+    @interface.showdown(@player, @dealer)
+    deal_result
+    rep_game
   end
 end
