@@ -10,6 +10,8 @@ class Game
 
   attr_reader :player, :dealer, :bank
 
+  ACTIONS = %i[add_card pass open]
+
   def initialize
     @bank = 0
     start_game
@@ -40,40 +42,40 @@ class Game
   end
 
   def game_round
-    return @interface.auto_open_cards if @dealer.hand.full_hand? && @player.hand.full_hand?
+    loop do
+      action = move_player # Ход игрока возвращает выбранное действие(action)
+      return @interface.opening_cards if action == :open
 
-    input = @interface.choice_player
-
-    case input
-    when 1
-      move_player
       move_dealer
-    when 2
-      move_dealer
-    when 3
-      return @interface.opening_cards
+      return @interface.auto_open_cards if round_ended?
     end
   end
 
   def move_player
-    return @interface.max_cards if @player.hand.full_hand?
+    action_index = @interface.choice_player - 1
+    action = ACTIONS[action_index]
 
-    @player.add_card(new_card)
-    @interface.open_cards(@player)
+    if action == :add_card
+      deal_card(@player)
+      @interface.open_cards(@player)
+    end
+    action
   end
 
   def move_dealer
-    return @interface.max_cards_dealer if @dealer.hand.full_hand?
-
-    @interface.choice_dealer
-    if @dealer.sum_cards < 17
-      @dealer.add_card(new_card)
+    if @dealer.can_take_card?
+      deal_card(@dealer)
       @interface.add_dealer
     else
       @interface.pass_dealer
     end
     interface_board
-    game_round
+  end
+
+  def deal_card(player)
+    return unless player.can_take_card?
+
+    player.add_card(new_card)
   end
 
   def interface_board
@@ -99,6 +101,10 @@ class Game
   def drop_cards
     @player.fold_cards
     @dealer.fold_cards
+  end
+
+  def round_ended?
+    !(@dealer.can_take_card? || @player.can_take_card?)
   end
 
   def rep_game

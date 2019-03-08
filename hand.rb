@@ -10,9 +10,9 @@ class Hand
   end
 
   def sum_cards
-    #sum = @cards.sum(&:value)
-    sum = 0
-    @cards.map { |card| sum += card.value }
+    sum = @cards.sum(&:value)
+    # sum = 0
+    # @cards.map { |card| sum += card.value }
     ace_correction(sum)
   end
 

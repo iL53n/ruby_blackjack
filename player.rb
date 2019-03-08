@@ -35,4 +35,8 @@ class Player
   def fold_cards
     @hand.cards = []
   end
+
+  def can_take_card?
+    !hand.full_hand?
+  end
 end
